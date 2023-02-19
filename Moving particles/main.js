@@ -9,6 +9,19 @@ let canvas = document.getElementById("canvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+//Define mouse object to store cursor postition
+const mouse = {
+    x: 0,
+    y: 0,
+};
+
+// Update mouse position
+window.addEventListener('mousemove', function(event) {
+    mouse.x = event.x;
+    mouse.y = event.y;
+  });
+
+
 // load sampling image
 let image = new Pixels("http://localhost:5500/Moving particles/test.png", image_is_loaded)
 
