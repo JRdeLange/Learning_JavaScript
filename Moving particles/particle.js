@@ -8,7 +8,7 @@ export default class Particle {
     }
 
     zeg() {
-        console.log(this.id);
+        console.log(this.id); //yo ik zet hier iets neer
     }
 } // comment
 
