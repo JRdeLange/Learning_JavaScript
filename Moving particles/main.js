@@ -12,11 +12,8 @@ canvas.height = window.innerHeight;
 // load sampling image
 let image = new Pixels("http://localhost:5500/Moving particles/test.png", image_is_loaded)
 
-
 // Image is now loaded
 function image_is_loaded(){
-  console.log(image)
-  console.log(image.pixels[0][0], image.pixels[100][100])
 
   // Make n particles
   let particle_array = [];

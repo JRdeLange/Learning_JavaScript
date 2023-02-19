@@ -6,7 +6,7 @@ export default class Particle {
         this.color = color;
         this.size = size;
         this.growing = true;
-        this.min_size = 10
+        this.min_size = 20
         this.max_size = 100
     }
 
@@ -23,4 +23,20 @@ export default class Particle {
             this.size -= 1;
         }
     }
+
+    dodge(mouse){
+
+        
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const maxDistance = 50;
+        if (distance < maxDistance && this.size < this.max_size) {
+            this.size += 5;
+        }
+        else if (this.size > this.min_size) {
+            this.size -= 5;
+        }
+    }
+    
 }
