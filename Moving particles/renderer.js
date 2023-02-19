@@ -17,7 +17,5 @@ export default class Renderer{
         this.context.beginPath();
         this.context.arc(p.x, p.y, p.size, 0, two_pi);
         this.context.fill();
-
     }
-
 }
