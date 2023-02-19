@@ -16,6 +16,7 @@ export default class Renderer{
     draw_particle(p) {
         this.context.beginPath();
         this.context.arc(p.x, p.y, p.size, 0, two_pi);
+        this.context.fillStyle = p.color;
         this.context.fill();
     }
 }
