@@ -1,9 +1,13 @@
-export class Mover {
-    move(thing) {
-        thing.style.transform = 'rotate(${angle}deg)';
-    }
-}
+export default class Particle {
 
-export default function move2(thing, angle) {
-    thing.style.transform = `rotate(${angle}deg)`;
+    constructor(x, y, color, size) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.size = size;
+    }
+
+    zeg() {
+        console.log(this.id);
+    }
 }
