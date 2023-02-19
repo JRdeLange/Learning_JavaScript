@@ -46,11 +46,11 @@ function image_is_loaded(){
         //generating random values for particle properties
         // let x = Math.floor(Math.random() * canvas.width) + 1;
         // let y = Math.floor(Math.random() * canvas.height) + 1;
-        let size = Math.floor(Math.random() * 6) + 1;
+        let size = Math.floor(Math.random() * 30) + 1;
         let random_color = Math.floor(Math.random() * color_array.length);
 
         //generating new particle in particle array
-        particle_array.push(new Particle(y*3, x*3, color_array[random_color], size));
+        particle_array.push(new Particle(y, x, color_array[random_color], 1));
             
     }
 
@@ -64,8 +64,8 @@ function image_is_loaded(){
     function draw() {
         let data = []
         particle_array.forEach(particle => {
-            particle.dodge(mouse)
-            data.push(particle.x/175 - 1, particle.y/175 - 1, particle.size)
+            particle.move()
+            data.push(particle.x/350*2 - 1, -particle.y/350*2 + 1, particle.size)
             
         });
         renderer.clear()

@@ -6,8 +6,8 @@ export default class Particle {
         this.color = color;
         this.size = size;
         this.growing = true;
-        this.min_size = 20
-        this.max_size = 100
+        this.min_size = 1
+        this.max_size = 31
     }
 
     move() {
@@ -18,9 +18,9 @@ export default class Particle {
         }
 
         if (this.growing) {
-            this.size += 1;
+            this.size += .2;
         } else {
-            this.size -= 1;
+            this.size -= .2;
         }
     }
 
