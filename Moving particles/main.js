@@ -1,4 +1,4 @@
-import fun from "http://localhost:5500/particle.js"
+import fun from "http://localhost:5500/Moving particles/particle.js"
 
 console.log("hello world");
 
@@ -19,7 +19,7 @@ function rotateSquare() {
 
   // Apply the rotation transform to the square
   // mover.move(square)
-  // square.style.transform = `rotate(${angle}deg)`;
+  square.style.transform = `rotate(${angle}deg)`;
   fun(square, angle)
 }
 
