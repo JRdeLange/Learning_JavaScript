@@ -5,7 +5,7 @@ export default class Renderer{
     constructor(canvas, particle_array) {
         this.canvas = canvas;
         this.context = canvas.getContext("2d");
-        this.particle_array = particle_array;
+        this.particle_array = particle_array;  
     }
 
     draw_particle_array() {
