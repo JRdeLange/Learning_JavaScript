@@ -2,14 +2,15 @@ const two_pi = Math.PI * 2
 
 export default class Renderer{
 
-    constructor(canvas) {
+    constructor(canvas, particle_array) {
         this.canvas = canvas;
-        this.context = canvas.getContext("2d")
+        this.context = canvas.getContext("2d");
+        this.particle_array = particle_array;
     }
 
-    draw_particle_array(array) {
-        array.forEach(particle => {
-            this.draw_particle(particle)
+    draw_particle_array() {
+        this.particle_array.forEach(particle => {
+            this.draw_particle(particle);
         });
     }
 
@@ -21,6 +22,6 @@ export default class Renderer{
     }
 
     clear() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }

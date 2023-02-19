@@ -2,7 +2,7 @@ console.log("hello world");
 
 const square = document.getElementById("square");
 console.log(square.getAttributeNames());
-square.style.borderWidth = "6px"
+square.style.borderWidth = "6px";
 
 
 // Initialize the rotation angle to 0
