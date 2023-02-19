@@ -10,7 +10,7 @@ let canvas = document.getElementById("canvas");
 // Draw particles
 let renderer = new Renderer(canvas);
 
-renderer.draw_particle_array(test_array);
+// renderer.draw_particle_array(array);
 
 
 
