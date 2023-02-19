@@ -9,7 +9,12 @@ export const vertex_source = `
 `;
 
 export const fragment_source = `
+  precision highp float;
+ 
   void main() {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    vec2 color;
+    color.x = mod(gl_FragCoord.x, 40.0) / 40.0;
+    color.y = mod(gl_FragCoord.y, 100.0) / 100.0;
+    gl_FragColor = vec4(1.0, color, 1.0);
   }
 `;
