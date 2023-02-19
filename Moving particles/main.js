@@ -35,7 +35,7 @@ function image_is_loaded(){
   let particle_array = [];
   let color_array = ["#db222a","#098d9b","#053c5e","#bc1055","#fa600c"];
 
-  for (let index = 0; index < 100; index++) {
+  for (let index = 0; index < 500; index++) {
     // generate position based on image
 
       
