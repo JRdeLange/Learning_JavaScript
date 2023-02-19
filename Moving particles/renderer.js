@@ -19,4 +19,8 @@ export default class Renderer{
         this.context.fillStyle = p.color;
         this.context.fill();
     }
+
+    clear() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    }
 }
