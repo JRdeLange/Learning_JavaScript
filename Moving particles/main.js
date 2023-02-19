@@ -1,8 +1,12 @@
+import fun from "http://localhost:5500/particle.js"
+
 console.log("hello world");
 
 const square = document.getElementById("square");
 console.log(square.getAttributeNames());
 square.style.borderWidth = "6px"
+
+//mover = Mover()
 
 
 // Initialize the rotation angle to 0
@@ -14,8 +18,10 @@ function rotateSquare() {
   angle += 1;
 
   // Apply the rotation transform to the square
-  square.style.transform = `rotate(${angle}deg)`;
+  // mover.move(square)
+  // square.style.transform = `rotate(${angle}deg)`;
+  fun(square, angle)
 }
 
 // Call rotateSquare every 50 milliseconds to animate the rotation
-setInterval(rotateSquare, 1000/30);
+setInterval(rotateSquare, 1000/60);
