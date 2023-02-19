@@ -7,6 +7,18 @@ let canvas = document.getElementById("canvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+//Define mouse object to store cursor postition
+const mouse = {
+    x: 0,
+    y: 0,
+};
+
+// Update mouse position
+window.addEventListener('mousemove', function(event) {
+    mouse.x = event.x;
+    mouse.y = event.y;
+  });
+
 // Make n particles
 
 let particle_array = [];
@@ -37,7 +49,9 @@ setInterval(draw, 1/60);
 function draw() {
   renderer.clear();
   particle_array.forEach(particle => {
-    particle.move()
+    //particle.move()
+    particle.dodge(mouse)
   });
   renderer.draw_particle_array();
 }
+  

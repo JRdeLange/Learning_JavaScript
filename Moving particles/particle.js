@@ -23,4 +23,17 @@ export default class Particle {
             this.size -= 1;
         }
     }
+
+    dodge(mouse){
+
+        
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const maxDistance = 50;
+        if (distance < maxDistance) {
+            this.size +=1;
+        }
+    }
+    
 }
