@@ -10,4 +10,4 @@ export default class Particle {
     zeg() {
         console.log(this.id);
     }
-}
+} // comment
