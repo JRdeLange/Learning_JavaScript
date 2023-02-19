@@ -1,10 +1,10 @@
 export default class Pixels{
-    constructor(file){
-        this.pixels = this.read_image(file)
+    constructor(file, func){
+        this.image = new Image()
+        this.pixels = this.read_image(file, this.image, func)
     }
 
-    read_image(file) {
-        let image = new Image()
+    read_image(file, image, func) {
         let pixels = []
         image.crossOrigin = "Anonymous";
         image.onload = function() {
@@ -20,13 +20,15 @@ export default class Pixels{
                 for (let y = 0; y < img_canvas.height; y++) {
                 const offset = (x * img_canvas.width + y) * 4;
                 const r = imageData.data[offset];
-                const g = imageData.data[offset + 1];
-                const b = imageData.data[offset + 2];
-                const a = imageData.data[offset + 3];
-                row.push([r, g, b, a]);
+                // const g = imageData.data[offset + 1];
+                // const b = imageData.data[offset + 2];
+                // const a = imageData.data[offset + 3];
+                // row.push([r, g, b, a]);
+                row.push([r / 255])
                 }
                 pixels.push(row);
             }
+            func()
         }
         image.src = file
         return pixels
