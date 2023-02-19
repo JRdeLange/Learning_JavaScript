@@ -35,18 +35,24 @@ function image_is_loaded(){
     let particle_array = [];
     let color_array = ["#db222a","#098d9b","#053c5e","#bc1055","#fa600c"];
   
-    for (let index = 0; index < 500; index++) {
+    for (let index = 0; index < 5000; index++) {
       // generate position based on image
-  
+      let x = Math.floor(Math.random() * 350)
+      let y = Math.floor(Math.random() * 350)
+
+      while (Math.random() < image.pixels[x][y]) {
+        x = Math.floor(Math.random() * 350)
+        y = Math.floor(Math.random() * 350)
+      }
         
       //generating random values for particle properties
-      let x = Math.floor(Math.random() * canvas.width) + 1;
-      let y = Math.floor(Math.random() * canvas.height) + 1;
-      let size = Math.floor(Math.random() * 100) + 1;
+      // let x = Math.floor(Math.random() * canvas.width) + 1;
+      // let y = Math.floor(Math.random() * canvas.height) + 1;
+      let size = Math.floor(Math.random() * 6) + 1;
       let random_color = Math.floor(Math.random() * color_array.length);
   
       //generating new particle in particle array
-      particle_array.push (new Particle(x, y, color_array[random_color], size));
+      particle_array.push (new Particle(y*3, x*3, color_array[random_color], size));
         
     }
   
@@ -58,8 +64,6 @@ function image_is_loaded(){
     let mover = new Mover(particle_array);
   
     setInterval(draw, 1/60);
-  
-  
     function draw() {
       renderer.clear();
       particle_array.forEach(particle => {
