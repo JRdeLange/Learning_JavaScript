@@ -1,14 +1,13 @@
-export default class Particle {
+export default class Particledata {
 
-    constructor(x, y, color, size) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.size = size;
-        this.growing = true;
-        this.min_size = 1
-        this.max_size = 21
+    constructor() {
+        this.positions = []
+        this.colors = []
+        this.sizes = []
     }
+
+    add_particle(position, color, size)
+    
 
     move() {
         if (this.size > this.max_size) {
@@ -18,9 +17,9 @@ export default class Particle {
         }
 
         if (this.growing) {
-            this.size += .05;
+            this.size += .2;
         } else {
-            this.size -= .05;
+            this.size -= .2;
         }
     }
 

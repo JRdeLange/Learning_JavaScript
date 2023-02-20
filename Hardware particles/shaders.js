@@ -3,7 +3,7 @@ export const vertex_source = `
   attribute float size;
 
   void main() {
-    gl_Position = vec4(a_position.x + 0.5 + sin(a_position.y * 10.0 + size)/30.0, a_position.y, 0, 1.0);
+    gl_Position = vec4(a_position.x, a_position.y, 0, 1.0);
     gl_PointSize = size;
   }
 `;

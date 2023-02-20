@@ -1,8 +1,7 @@
-import Particle from "http://localhost:5500/Moving particles/particle.js"
-import Renderer from "http://localhost:5500/Moving particles/renderer.js"
-import WebGLRenderer from "http://localhost:5500/Moving particles/webgl_renderer.js"
-import Mover from "http://localhost:5500/Moving particles/mover.js"
-import Pixels from "http://localhost:5500/Moving particles/pixels.js"
+import Particledata from "http://localhost:5500/Hardware particles/particledata.js"
+import WebGLRenderer from "http://localhost:5500/Hardware particles/webgl_renderer.js"
+import Mover from "http://localhost:5500/Hardware particles/mover.js"
+import Pixels from "http://localhost:5500/Hardware particles/pixels.js"
 
 
 // get HTML5 canvas
@@ -33,7 +32,7 @@ function image_is_loaded(){
     let particle_array = [];
     let color_array = ["#db222a","#098d9b","#053c5e","#bc1055","#fa600c"];
 
-    for (let index = 0; index < 3000; index++) {
+    for (let index = 0; index < 15000; index++) {
         // generate position based on image
         let x = Math.floor(Math.random() * 350)
         let y = Math.floor(Math.random() * 350)
@@ -65,7 +64,7 @@ function image_is_loaded(){
         let data = []
         particle_array.forEach(particle => {
             particle.move()
-            data.push(particle.x/350 - 1, -particle.y/350 + 1, particle.size)
+            data.push(particle.x/350*2 - 1, -particle.y/350*2 + 1, particle.size)
             
         });
         renderer.clear()
