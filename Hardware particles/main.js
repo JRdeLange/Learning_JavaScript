@@ -9,6 +9,8 @@ let canvas = document.getElementById("canvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+const canvas_rect = canvas.getBoundingClientRect();
+
 //Define mouse object to store cursor postition
 const mouse = {
     x: 0,
@@ -17,8 +19,10 @@ const mouse = {
 
 // Update mouse position
 window.addEventListener('mousemove', function(event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
+    let x = event.x - canvas_rect.left;
+    let y = event.y - canvas_rect.top;
+    mouse.x = (x / canvas.width) * 2 - 1;
+    mouse.y = (y / canvas.height) * 2 - 1;
 });
 
 
@@ -29,59 +33,48 @@ let image = new Pixels("http://localhost:5500/Moving particles/test.png", image_
 function image_is_loaded(){
 
     // Make n particles
-    let particle_array = [];
-    let color_array = ["#db222a","#098d9b","#053c5e","#bc1055","#fa600c"];
+    let particle_data = new Particledata();
+    // let color_array = ["#db222a","#098d9b","#053c5e","#bc1055","#fa600c"];
+    let color_array = [[0.859, 0.133, 0.165, 1.0], [0.035, 0.553, 0.608, 1.0],
+                       [0.020, 0.235, 0.369, 1.0], [0.737, 0.063, 0.333, 1.0],
+                       [0.980, 0.376, 0.047, 1.0]];
 
-    for (let index = 0; index < 15000; index++) {
+    for (let index = 0; index < 100000; index++) {
         // generate position based on image
-        let x = Math.floor(Math.random() * 350)
-        let y = Math.floor(Math.random() * 350)
+        let x = Math.floor(Math.random() * image.pixels.length)
+        let y = Math.floor(Math.random() * image.pixels[0].length)
 
         while (Math.random() < image.pixels[x][y]) {
-            x = Math.floor(Math.random() * 350)
-            y = Math.floor(Math.random() * 350)
+            x = Math.floor(Math.random() * image.pixels.length)
+            y = Math.floor(Math.random() * image.pixels[0].length)
         }
+
+        // Add a small random offset
+        x += Math.random() - 5
+        y += Math.random() - 5
+
+        // scale x and y values
+        x = x / image.pixels.length * 2 - 1
+        y = y / image.pixels[0].length * 2 - 1
             
         //generating random values for particle properties
-        // let x = Math.floor(Math.random() * canvas.width) + 1;
-        // let y = Math.floor(Math.random() * canvas.height) + 1;
-        let size = Math.floor(Math.random() * 30) + 1;
+        let size = Math.random() * particle_data.max_size;
         let random_color = Math.floor(Math.random() * color_array.length);
 
         //generating new particle in particle array
-        particle_array.push(new Particle(y, x, color_array[random_color], 1));
-            
+
+        particle_data.add_particle([x, y], color_array[random_color], size)      
     }
 
     // Draw particles
-    // let renderer = new Renderer(canvas, particle_array);
-    let renderer = new WebGLRenderer(canvas)
-    let mover = new Mover(particle_array);
+    let renderer = new WebGLRenderer(canvas, particle_data, mouse);
 
-    setInterval(draw, 1/60);
+    window.requestAnimationFrame(draw);
 
-    function draw() {
-        let data = []
-        particle_array.forEach(particle => {
-            particle.move()
-            data.push(particle.x/350*2 - 1, -particle.y/350*2 + 1, particle.size)
-            
-        });
+    function draw(time) {
+        particle_data.grow()
         renderer.clear()
-        renderer.draw(data)
-    }
-
-
-
-
-    function draw_old() {
-        renderer.clear();
-        particle_array.forEach(particle => {
-            //particle.move()
-            particle.dodge(mouse)
-        });
-        renderer.draw_particle_array();
-
-
+        renderer.draw(time)
+        window.requestAnimationFrame(draw)
     }
 }

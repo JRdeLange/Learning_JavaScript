@@ -15,9 +15,9 @@ export default class Pixels{
             img_context.drawImage(image, 0, 0);
             let imageData = img_context.getImageData(0, 0, img_canvas.width, img_canvas.height);
 
-            for (let y = 0; y < img_canvas.height; y++) {
+            for (let x = 0; x < img_canvas.width; x++) {
                 const row = [];
-                for (let x = 0; x < img_canvas.width; x++) {
+                for (let y = 0; y < img_canvas.height; y++) {
                 const offset = (y * img_canvas.width + x) * 4;
                 const r = imageData.data[offset];
                 // const g = imageData.data[offset + 1];

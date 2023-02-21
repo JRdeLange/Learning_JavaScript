@@ -1,41 +1,38 @@
 export default class Particledata {
 
     constructor() {
-        this.positions = []
-        this.colors = []
-        this.sizes = []
+        this.nr = 0
+        this.positions = [];
+        this.colors = [];
+        //this.color_indices = [];
+        this.sizes = [];
+        this.sizes_growing = [];
+        this.random_nrs = [];
+        this.min_size = 0;
+        this.max_size = 5;
     }
 
-    add_particle(position, color, size)
-    
-
-    move() {
-        if (this.size > this.max_size) {
-            this.growing = false;
-        } else if (this.size < this.min_size) {
-            this.growing = true;
-        }
-
-        if (this.growing) {
-            this.size += .2;
-        } else {
-            this.size -= .2;
-        }
+    add_particle(position, color, size) {
+        this.nr += 1;
+        this.positions.push(position[0], -position[1]);
+        //this.color_indices.push(color);
+        this.colors.push(color[0], color[1], color[2], color[3]);
+        this.sizes.push(size);
+        this.sizes_growing.push(Math.random() > 0.5);
+        this.random_nrs.push(Math.random(), Math.random(), Math.random())
     }
 
-    dodge(mouse){
-
-        
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDistance = 50;
-        if (distance < maxDistance && this.size < this.max_size) {
-            this.size += 5;
-        }
-        else if (this.size > this.min_size) {
-            this.size -= 5;
+    grow() {
+        for (let idx = 0; idx < this.sizes.length; idx++) {
+            if (this.sizes_growing[idx]) {
+                this.sizes[idx] += 0.1;
+                this.sizes_growing[idx] = (this.sizes[idx] < this.max_size);
+            } else {
+                this.sizes[idx] -= 0.1;
+                this.sizes_growing[idx] = (this.sizes[idx] < this.min_size);
+            
+            }
+            
         }
     }
-    
 }

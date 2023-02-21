@@ -2,17 +2,50 @@ import { vertex_source, fragment_source } from "http://localhost:5500/Hardware p
 
 export default class WebGLRenderer{
 
-    constructor(canvas) {
+    constructor(canvas, particle_data, mouse) {
+        this.particle_data = particle_data;
         this.gl = canvas.getContext("experimental-webgl");
+        this.mouse = mouse;
+
+        this.date = new Date();
+
         this.shader_program = this.gl.createProgram();
         this.make_shaders();
 
-        this.vertex_buffer = this.gl.createBuffer();
+        this.position_buffer = this.gl.createBuffer();
+        this.color_buffer = this.gl.createBuffer();
+        this.size_buffer = this.gl.createBuffer();
+        this.random_nr_buffer = this.gl.createBuffer();
 
-        this.pos_attribute = null
-        this.size_attribute = null
+        this.pos_attribute = null;
+        this.color_attribute = null;
+        this.size_attribute = null;
+        this.random_nr_attribute = null;
         this.get_attribute_locations();
 
+        this.time_uniform = null;
+        this.mouse_uniform = null;
+        this.get_uniform_locations();
+
+        this.fill_buffers();
+
+        this.gl.enable(this.gl.DEPTH_TEST);
+        this.prevtime = 0;
+    }
+
+    draw(time) {
+        this.fill_size_buffer();
+        this.set_uniforms(time);
+        
+        // this.print_framerate(time);
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.position_buffer);
+        this.gl.drawArrays(this.gl.POINTS, 0, this.particle_data.nr);
+    }
+
+    print_framerate(time) {
+        console.log(1000 / (time - this.prevtime));
+        this.prevtime = time;
     }
 
     clear() {
@@ -20,29 +53,73 @@ export default class WebGLRenderer{
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     }
 
-    draw(data) {
-        this.fill_vertex_buffer(data)
-
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertex_buffer);
-        this.gl.drawArrays(this.gl.POINTS, 0, data.length / 3);
+    fill_buffers() {
+        this.fill_position_buffer();
+        this.fill_color_buffer();
+        this.fill_size_buffer();
+        this.fill_random_nr_buffer();
     }
 
-    fill_vertex_buffer(data) {
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertex_buffer);
+    fill_position_buffer() {
+        let data = this.particle_data.positions;
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.position_buffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
+    }
+
+    fill_color_buffer() {
+        let data = this.particle_data.colors;
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.color_buffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
+    }
+
+    fill_size_buffer() {
+        let data = this.particle_data.sizes;
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.size_buffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STREAM_DRAW);
+    }
+
+    fill_random_nr_buffer() {
+        let data = this.particle_data.random_nrs;
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.random_nr_buffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
     }
 
     get_attribute_locations() {
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertex_buffer);
-        
-        this.pos_attribute = this.gl.getAttribLocation(this.shader_program, "a_position");
-        this.gl.vertexAttribPointer(this.pos_attribute, 2, this.gl.FLOAT, false, 12 , 0);
+        // Position attribute
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.position_buffer);
+        this.pos_attribute = this.gl.getAttribLocation(this.shader_program, "position");
+        this.gl.vertexAttribPointer(this.pos_attribute, 2, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(this.pos_attribute);
+
+        // Color attribute
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.color_buffer);
+        this.color_attribute = this.gl.getAttribLocation(this.shader_program, "color");
+        this.gl.vertexAttribPointer(this.color_attribute, 4, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(this.color_attribute);
     
+        // Size attribute
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.size_buffer);
         this.size_attribute = this.gl.getAttribLocation(this.shader_program, "size");
-        this.gl.vertexAttribPointer(this.size_attribute, 1, this.gl.FLOAT, false, 12 , 8);
+        this.gl.vertexAttribPointer(this.size_attribute, 1, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(this.size_attribute);
+
+        // Random nrs attribute
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.random_nr_buffer);
+        this.random_nr_attribute = this.gl.getAttribLocation(this.shader_program, "random_nrs");
+        this.gl.vertexAttribPointer(this.random_nr_attribute, 3, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(this.random_nr_attribute);
+    }
+
+    set_uniforms(time) {
+        let mouse_array = new Float32Array([this.mouse.x, this.mouse.y]);
+        this.gl.uniform2fv(this.mouse_uniform, mouse_array);
+        time = time / 1000;
+        this.gl.uniform1f(this.time_uniform, time);
+    }
+
+    get_uniform_locations() {
+        this.time_uniform = this.gl.getUniformLocation(this.shader_program, "time");
+        this.mouse_uniform = this.gl.getUniformLocation(this.shader_program, "mouse");
     }
 
     make_shaders() {
