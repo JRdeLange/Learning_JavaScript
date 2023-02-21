@@ -27,7 +27,7 @@ window.addEventListener('mousemove', function(event) {
 
 
 // load sampling image
-let image = new Pixels("http://localhost:5500/Moving particles/test.png", image_is_loaded)
+let image = new Pixels("http://localhost:5500/Hardware particles/test.png", image_is_loaded)
 
 // Image is now loaded
 function image_is_loaded(){
