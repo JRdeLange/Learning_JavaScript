@@ -14,12 +14,10 @@ export default class WebGLRenderer{
 
         this.position_buffer = this.gl.createBuffer();
         this.color_buffer = this.gl.createBuffer();
-        this.size_buffer = this.gl.createBuffer();
         this.random_nr_buffer = this.gl.createBuffer();
 
         this.pos_attribute = null;
         this.color_attribute = null;
-        this.size_attribute = null;
         this.random_nr_attribute = null;
         this.get_attribute_locations();
 
@@ -34,10 +32,9 @@ export default class WebGLRenderer{
     }
 
     draw(time) {
-        // this.fill_size_buffer();
         this.set_uniforms(time);
         
-        // this.print_framerate(time);
+        this.print_framerate(time);
 
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.position_buffer);
         this.gl.drawArrays(this.gl.POINTS, 0, this.particle_data.nr);
@@ -56,7 +53,6 @@ export default class WebGLRenderer{
     fill_buffers() {
         this.fill_position_buffer();
         this.fill_color_buffer();
-        this.fill_size_buffer();
         this.fill_random_nr_buffer();
     }
 
@@ -70,12 +66,6 @@ export default class WebGLRenderer{
         let data = this.particle_data.colors;
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.color_buffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
-    }
-
-    fill_size_buffer() {
-        let data = this.particle_data.sizes;
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.size_buffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STREAM_DRAW);
     }
 
     fill_random_nr_buffer() {
@@ -96,12 +86,6 @@ export default class WebGLRenderer{
         this.color_attribute = this.gl.getAttribLocation(this.shader_program, "color");
         this.gl.vertexAttribPointer(this.color_attribute, 4, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(this.color_attribute);
-    
-        // Size attribute
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.size_buffer);
-        this.size_attribute = this.gl.getAttribLocation(this.shader_program, "size");
-        this.gl.vertexAttribPointer(this.size_attribute, 1, this.gl.FLOAT, false, 0, 0);
-        this.gl.enableVertexAttribArray(this.size_attribute);
 
         // Random nrs attribute
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.random_nr_buffer);

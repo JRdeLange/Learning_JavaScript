@@ -39,7 +39,7 @@ function image_is_loaded(){
                        [0.020, 0.235, 0.369, 1.0], [0.737, 0.063, 0.333, 1.0],
                        [0.980, 0.376, 0.047, 1.0]];
 
-    for (let index = 0; index < 150000; index++) {
+    for (let index = 0; index < 100000; index++) {
         // generate position based on image
         let x = Math.floor(Math.random() * image.pixels.length)
         let y = Math.floor(Math.random() * image.pixels[0].length)
@@ -58,12 +58,11 @@ function image_is_loaded(){
         y = y / image.pixels[0].length * 2 - 1
             
         //generating random values for particle properties
-        let size = Math.random() * particle_data.max_size;
         let random_color = Math.floor(Math.random() * color_array.length);
 
         //generating new particle in particle array
 
-        particle_data.add_particle([x, y], color_array[random_color], size)      
+        particle_data.add_particle([x, y], color_array[random_color])      
     }
 
     // Draw particles
