@@ -39,7 +39,7 @@ function image_is_loaded(){
                        [0.020, 0.235, 0.369, 1.0], [0.737, 0.063, 0.333, 1.0],
                        [0.980, 0.376, 0.047, 1.0]];
 
-    for (let index = 0; index < 100000; index++) {
+    for (let index = 0; index < 150000; index++) {
         // generate position based on image
         let x = Math.floor(Math.random() * image.pixels.length)
         let y = Math.floor(Math.random() * image.pixels[0].length)
@@ -72,7 +72,7 @@ function image_is_loaded(){
     window.requestAnimationFrame(draw);
 
     function draw(time) {
-        particle_data.grow()
+        // particle_data.grow()
         renderer.clear()
         renderer.draw(time)
         window.requestAnimationFrame(draw)

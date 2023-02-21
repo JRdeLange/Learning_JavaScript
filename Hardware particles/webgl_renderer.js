@@ -34,7 +34,7 @@ export default class WebGLRenderer{
     }
 
     draw(time) {
-        this.fill_size_buffer();
+        // this.fill_size_buffer();
         this.set_uniforms(time);
         
         // this.print_framerate(time);

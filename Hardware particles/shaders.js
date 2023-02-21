@@ -24,7 +24,7 @@ export const vertex_source = `
     }
 
     gl_Position = vec4(posxy, 0.0, 1.0);
-    gl_PointSize = size;
+    gl_PointSize = (sin(time + (random_nrs.x * 2.0 * 3.1415)) * 5.0) + 1.0;
     fragcolor = color;
   }
 `;
